@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel Blog</title>
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+    <script src="./digimon.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css">
+<script defer>
+
+window.onload = (event) => {
+  let root = document.querySelector(".container");
+
+  window.digimon.sort((a,b)=>sort_order[a.level]>sort_order[b.level]);
+
+  for(let x of window.digimon){
+    root.append(ce(card_format(x)));
+  }
+
+};
+
+/* 
+
+Things to do:
+
+1. Sort the digimon by level, should be in order of:
+  [
+    "Fresh",
+    "In Training",
+    "Rookie",
+    "Champion",
+    "Ultimate",
+    "Mega"
+  ]
+2. Take each digimon and render it on an HTML page in the order mentioned above
+  - Should display the name, the image, and the level
+  - Style things as you'd like, try to make it look fancy
+
+{
+  class:"card",
+  ch_:[
+    {
+      class:"card-image",
+      ch_:[{
+        tagname_:"figure",
+        class:"image", //is-4by3
+        ch_:[{
+          tagname_:"img",
+          src:"",
+          alt:"",
+        }]
+      }]
+    },
+    {
+      class:"card-content",
+      ch_:[
+        {
+          tagname_:"p",
+          class:"title is-4",
+          text:json["name"]||undefined,
+        },
+        {
+          tagname_:"p",
+          class:"subtitle is-6",
+          text_:json['level'],
+        }
+      ],
+    }
+  ]
+}
+  
+<div class="card">
+  <div class="card-image">
+    <figure class="image is-4by3">
+      <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+    </figure>
+  </div>
+  <div class="card-content">
+    <div class="media">
+      <div class="media-left">
+        <figure class="image is-48x48">
+          <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+        </figure>
+      </div>
+      <div class="media-content">
+        <p class="title is-4">John Smith</p>
+        <p class="subtitle is-6">@johnsmith</p>
+      </div>
+    </div>
+
+    <div class="content">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Phasellus nec iaculis mauris. <a>@bulmaio</a>.
+      <a href="#">#css</a> <a href="#">#responsive</a>
+      <br>
+      <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+    </div>
+  </div>
+</div>
+*/
+let sort_order = {
+  "Fresh":1,
+  "In Training":2,
+  "Rookie":3,
+  "Champion":4,
+  "Ultimate":5,
+  "Mega":6,
+}
+
+function ce(json)
+{
+  
+  let el = document.createElement(json['tagname_']||"div");
+  for(let x in json){
+    switch(x){
+      case "tagname_":
+      break;
+      case "text_":
+        el.innerText = json[x];
+      break;
+      case "ch_":
+        for(let y of json[x])
+          el.append(ce(y));
+      break;
+      default:
+        el.setAttribute(x,json[x]);
+    }
+  }
+  return el;
+}
+
+function card_format(json){
+  return {
+    class:"card column is-4",
+    ch_:[
+      {
+        class:"card-image",
+        ch_:[{
+          tagname_:"figure",
+          class:"image", //is-4by3
+          style:"width:280px;",
+          ch_:[{
+            tagname_:"img",
+            src:json["img"]||"",
+            alt:json['name'],
+          }]
+        }]
+      },
+      {
+        class:"card-content",
+        ch_:[
+          {
+            tagname_:"p",
+            class:"title is-4",
+            text_:json["name"],
+          },
+          {
+            tagname_:"p",
+            class:"subtitle is-6",
+            text_:json['level'],
+          }
+        ],
+      }
+    ]
+  }
+}
+</script>
+  </head>
+  <body>
+    <div class="container row columns is-multiline"></div>
+  </body>
+</html>
